@@ -38,9 +38,8 @@ public class ProjectController {
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
 
         ResponseEntity<Map<String, String>> errorMapRsp = validationService.generateErrorMapResponse(result);
-        if (errorMapRsp != null){ // has errors
-            return errorMapRsp;
-        }
+        if (errorMapRsp != null) return errorMapRsp;// has errors from invalid object
+
         Project createdProject = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
     }
