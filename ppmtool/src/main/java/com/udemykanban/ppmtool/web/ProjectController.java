@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,6 +47,11 @@ public class ProjectController {
         Project project = projectService.findByProjectIdentifier(projectIdentifier);
         return new ResponseEntity<>(project, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/all")
+    public List<Project> getAllProjects(){ //can use Iterable<Project> also - default
+        return projectService.findAllProjects();
     }
 
 }

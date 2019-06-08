@@ -6,6 +6,7 @@ import com.udemykanban.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +41,9 @@ public class ProjectService {
         Optional<Project> opProj = projectRepository.findByProjectIdentifierIgnoreCase(projectIdentifier);
         return opProj.orElseThrow(() -> new ProjectIdException("Project ID: " + projectIdentifier.toUpperCase()
                 + " does not exist"));
+    }
+
+    public List<Project> findAllProjects(){
+        return projectRepository.findAll();
     }
 }
