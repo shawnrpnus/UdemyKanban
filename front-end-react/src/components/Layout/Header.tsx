@@ -1,8 +1,8 @@
 import { Menu } from "antd";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
-export interface IHeaderProps {}
+export interface IHeaderProps extends RouteComponentProps {}
 
 export interface IHeaderState {}
 
@@ -29,10 +29,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 				<Menu
 					theme="dark"
 					mode="horizontal"
-					defaultSelectedKeys={["2"]}
+					selectedKeys={[this.props.location.pathname]}
 					style={{ lineHeight: "64px" }}
 				>
-					<Menu.Item key="1" style={{ float: "left" }}>
+					<Menu.Item key="/dashboard" style={{ float: "left" }}>
 						<Link to="/dashboard">Dashboard</Link>
 					</Menu.Item>
 					<Menu.Item key="2" style={{ float: "right" }}>
@@ -47,4 +47,5 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 	}
 }
 
-export default Header;
+const HeaderWithRouter = withRouter(Header);
+export default HeaderWithRouter;

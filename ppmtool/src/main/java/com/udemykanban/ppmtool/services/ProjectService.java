@@ -25,6 +25,8 @@ public class ProjectService {
         //save as uppercase for easier comparison
         try {
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            System.out.println(project.getStart_date().toString());
+            System.out.println(project.getStart_date().getTime());
             return projectRepository.save(project); //persist if does not exist
         } catch (Exception e) {
             Optional<Project> proj = projectRepository.findByProjectIdentifierIgnoreCase(project.getProjectIdentifier());

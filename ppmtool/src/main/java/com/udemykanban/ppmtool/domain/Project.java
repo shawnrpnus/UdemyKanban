@@ -28,14 +28,14 @@ public class Project {
     @NotBlank(message = "Project description is required")
     private String description;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_SG", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss Z", locale = "en_SG", timezone = "GMT+8")
     private Date start_date;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_SG", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss Z", locale = "en_SG", timezone = "GMT+8")
     private Date end_date;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_SG", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss Z", locale = "en_SG", timezone = "GMT+8")
     private Date created_At;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "en_SG", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss Z", locale = "en_SG", timezone = "GMT+8")
     private Date updated_At;
 
     @PrePersist
