@@ -1,5 +1,6 @@
 import { Menu } from "antd";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 export interface IHeaderProps {}
 
@@ -32,7 +33,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 					style={{ lineHeight: "64px" }}
 				>
 					<Menu.Item key="1" style={{ float: "left" }}>
-						Dashboard
+						<Link to="/dashboard">Dashboard</Link>
 					</Menu.Item>
 					<Menu.Item key="2" style={{ float: "right" }}>
 						Sign Up

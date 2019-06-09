@@ -1,6 +1,7 @@
 import { Button, Typography } from "antd";
 import * as React from "react";
 import ProjectItem from "./Project/ProjectItem";
+import CreateProjectButton from "./Project/CreateProjectButton";
 
 const { Title } = Typography;
 
@@ -19,7 +20,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 		return (
 			<div style={{ padding: "30px" }}>
 				<Title style={{ textAlign: "center" }}>Projects</Title>
-				<Button type="primary">Create a Project</Button>
+				<CreateProjectButton />
 				<hr />
 				<ProjectItem
 					id="TEST1"
