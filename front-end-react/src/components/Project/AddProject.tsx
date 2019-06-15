@@ -41,15 +41,6 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((errors, values: formResponse) => {
 			if (!errors) {
-				// let keys = Object.keys(values);
-				// let formData2: IAddProjectState = Object.assign({}, values);
-				// if (keys.includes("start_date") && values["start_date"] != undefined) {
-				// 	formData["start_date"] = values["start_date"].toDate();
-				// }
-				// if (keys.includes("end_date") && values["end_date"] != undefined) {
-				// 	formData["end_date"] = values["end_date"].toDate();
-				// }
-				// console.log(formData);
 				const formData = {
 					projectName: values["projectName"],
 					projectIdentifier: values["projectIdentifier"],
