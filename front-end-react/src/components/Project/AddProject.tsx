@@ -73,11 +73,13 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 							rules: [{ required: true, message: "Project Name is Required!" }]
 						})(<Input placeholder="Project Name" />)}
 					</Form.Item>
+
 					<Form.Item>
 						{getFieldDecorator("projectIdentifier", {
 							rules: [{ required: true, message: "Project ID is Required!" }]
 						})(<Input placeholder="Unique Project ID" />)}
 					</Form.Item>
+
 					<Form.Item>
 						{getFieldDecorator("description", {
 							rules: [
@@ -85,16 +87,19 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 							]
 						})(<Input placeholder="Project Description" />)}
 					</Form.Item>
+
 					<Form.Item label="Start Date">
 						{getFieldDecorator("start_date", {
 							initialValue: moment()
 						})(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
+
 					<Form.Item label="End Date">
 						{getFieldDecorator("end_date")(
 							<DatePicker style={{ width: "100%" }} />
 						)}
 					</Form.Item>
+
 					<Form.Item>
 						<Button
 							type="primary"

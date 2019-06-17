@@ -32,6 +32,10 @@
 2. antd
 3. moment
 4. react-router-dom
+5. redux
+6. react-redux
+7. redux-thunk
+8. axios
 
 ## Setup
 
@@ -42,3 +46,13 @@
 3. Setup router in App.tsx
 4. Use functional components for small-scale stateless components e.g. buttons
 5. Implement form controls for forms: follow same attribute names as entity in backend
+
+## Redux
+
+### Flow
+
+1. Form --> Calls a Redux action --> calls API from Spring Boot --> errors put in Redux store --> component gets update from store to display errors
+
+### Setup
+
+1. Create a store.ts in src folder
