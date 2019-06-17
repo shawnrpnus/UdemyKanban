@@ -49,10 +49,16 @@
 
 ## Redux
 
-### Flow
+### Architecture and Workflow
 
-1. Form --> Calls a Redux action --> calls API from Spring Boot --> errors put in Redux store --> component gets update from store to display errors
+1. Form --> Dispatch a Redux action --> redux action calls API from Spring Boot --> errors put in Redux store --> component gets update from store to display errors (mapStateToProps)
 
 ### Setup
 
 1. Create a store.ts in src folder
+2. Create a root reducer in src/reducers using combineReducers
+3. Set up thunk middleware, use createStore to create the store with rootReducer, initialState, middleware (Thunk) and enhancers (DevTools)
+4. Wrap entire App in Provider component, pass in the store as props
+5. Create src/actions folder with two files: projectActions (for action creators) and types (for const action types)
+6. Define action creators (ordinary / async)
+7. Define mapStateToProps and mapDispatchToProps in components, then connect component and export

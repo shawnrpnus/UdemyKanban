@@ -8,6 +8,7 @@ import AddProject from "./components/Project/AddProject";
 import { Provider } from "react-redux";
 import store from "./store";
 
+// Provider makes store available to child components that have been wrapped with the connect function
 const App: React.FC = () => {
 	return (
 		<Provider store={store}>

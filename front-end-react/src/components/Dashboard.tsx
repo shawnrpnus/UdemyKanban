@@ -1,7 +1,7 @@
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 import * as React from "react";
-import ProjectItem from "./Project/ProjectItem";
 import CreateProjectButton from "./Project/CreateProjectButton";
+import ProjectItem from "./Project/ProjectItem";
 
 const { Title } = Typography;
 

@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/project")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -33,6 +34,7 @@ public class ProjectController {
     //    Spring then invokes the validator and puts any errors in the BindingResult and
     //    adds the BindingResult to the view model.
     //    Also use @Valid to check validity based on validation constraints
+
     @PostMapping("") //can be used to update, just that the project req body must have the id attribute that exists
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
 

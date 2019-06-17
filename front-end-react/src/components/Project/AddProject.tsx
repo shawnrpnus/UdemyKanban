@@ -3,10 +3,16 @@ import { Typography, Form, Input, DatePicker, Button } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { Moment } from "moment";
 import moment from "moment";
+import { connect } from "react-redux";
+import { createProject } from "../../actions/projectActions";
+import { History } from "history";
 
 const { Title } = Typography;
 
-export interface IAddProjectProps extends FormComponentProps {}
+export interface IAddProjectProps extends FormComponentProps {
+	createProject: Function;
+	history: History;
+}
 
 export interface IAddProjectState {
 	projectIdentifier: string;
@@ -39,6 +45,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {
 		e.preventDefault();
+		let newProject;
 		this.props.form.validateFieldsAndScroll((errors, values: formResponse) => {
 			if (!errors) {
 				const formData = {
@@ -53,10 +60,12 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						: values["end_date"].format("YYYY-MM-DD HH:mm:ss ZZ")
 				};
 				console.log(formData);
+				newProject = formData;
 			} else {
 				console.log(errors);
 			}
 		});
+		this.props.createProject(newProject, this.props.history);
 	}
 
 	public render() {
@@ -116,4 +125,10 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 }
 
 const wrappedAddProjectForm = Form.create({ name: "add_project" })(AddProject);
-export default wrappedAddProjectForm;
+const mapDispatchToProps = {
+	createProject
+}; //will wrap to become this.props.createProject = (project, history) => dispatch(createProject(project,history))
+export default connect(
+	null,
+	mapDispatchToProps
+)(wrappedAddProjectForm);
