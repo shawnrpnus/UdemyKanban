@@ -18,14 +18,6 @@ export interface IAddProjectProps extends FormComponentProps {
 export interface IAddProjectState {
 	projectIdentifier: string;
 	projectName: string;
-	projectDescription: string;
-	start_date: Moment | Date | null;
-	end_date: Moment | Date | null;
-}
-
-export interface formResponse {
-	projectIdentifier: string;
-	projectName: string;
 	description: string;
 	start_date: Moment | null;
 	end_date: Moment | null;
@@ -37,7 +29,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 		this.state = {
 			projectName: "",
 			projectIdentifier: "",
-			projectDescription: "",
+			description: "",
 			start_date: null,
 			end_date: null
 		};
@@ -46,8 +38,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {
 		e.preventDefault();
-		let newProject;
-		this.props.form.validateFieldsAndScroll((errors, values: formResponse) => {
+		this.props.form.validateFieldsAndScroll((errors, values: IAddProjectState) => {
 			if (!errors) {
 				const formData = {
 					projectName: values["projectName"],
@@ -60,22 +51,22 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						? null
 						: values["end_date"].format("YYYY-MM-DD HH:mm:ss ZZ")
 				};
-				console.log(formData);
-				newProject = new Project(
+				//console.log(formData);
+				let newProject = new Project(
 					formData.projectIdentifier,
 					formData.projectName,
 					formData.description,
 					formData.start_date,
 					formData.end_date
 				);
+				this.props.createProject(newProject, this.props.history);
 			} else {
 				console.log(errors);
 			}
 		});
-		this.props.createProject(newProject, this.props.history);
 	}
 
-	public render() {
+	render() {
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div style={{ padding: "30px" }}>
@@ -98,9 +89,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 					<Form.Item>
 						{getFieldDecorator("description", {
-							rules: [
-								{ required: true, message: "Project Description is Required!" }
-							]
+							rules: [{ required: true, message: "Project Description is Required!" }]
 						})(<Input placeholder="Project Description" />)}
 					</Form.Item>
 
@@ -111,17 +100,11 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 					</Form.Item>
 
 					<Form.Item label="End Date">
-						{getFieldDecorator("end_date")(
-							<DatePicker style={{ width: "100%" }} />
-						)}
+						{getFieldDecorator("end_date")(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
 
 					<Form.Item>
-						<Button
-							type="primary"
-							htmlType="submit"
-							onSubmit={this.handleSubmit}
-						>
+						<Button type="primary" htmlType="submit" onSubmit={this.handleSubmit}>
 							Submit
 						</Button>
 					</Form.Item>

@@ -5,8 +5,8 @@ import { History } from "history";
 
 //MUST explicity call DISPATCH in an async function
 //function must return an action object
-//action creator must return a function (function IS the action)
-//function can take in dispatch, getState, extraArgument (react-thunk)
+//action creator must return a function (function IS the action) --> redux thunk will call the function
+//function can take in dispatch, getState, extraArgument (redux-thunk)
 export const createProject = (project: Project, history: History) => {
 	return (dispatch: any) => {
 		axios
