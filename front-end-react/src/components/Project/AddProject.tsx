@@ -6,7 +6,6 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { createProject } from "../../actions/projectActions";
 import { History } from "history";
-import { Project } from "../../models/Project";
 
 const { Title } = Typography;
 
@@ -33,18 +32,8 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {
 		e.preventDefault();
-		console.log(this.props.form.getFieldsError());
 		let fieldValues = this.props.form.getFieldsValue();
-		let newProject = new Project(
-			fieldValues.projectIdentifier,
-			fieldValues.projectName,
-			fieldValues.description,
-			fieldValues.start_date
-				? fieldValues.start_date.format("YYYY-MM-DD HH:mm:ss ZZ")
-				: null,
-			fieldValues.end_date ? fieldValues.end_date.format("YYYY-MM-DD HH:mm:ss ZZ") : null
-		);
-		this.props.createProject(newProject, this.props.history);
+		this.props.createProject(fieldValues, this.props.history);
 	}
 
 	render() {

@@ -1,18 +1,16 @@
-import { Moment } from "moment";
-
 export class Project {
-	private projectIdentifier: string;
-	private projectName: string;
-	private description: string;
-	private start_date: Moment | Date | String | null;
-	private end_date: Moment | Date | String | null;
+	projectIdentifier: string;
+	projectName: string;
+	description: string;
+	start_date: Date | String | null;
+	end_date: Date | String | null;
 
 	constructor(
 		$projectIdentifier: string,
 		$projectName: string,
 		$projectDescription: string,
-		$start_date: Moment | Date | String | null,
-		$end_date: Moment | Date | String | null
+		$start_date: Date | String | null,
+		$end_date: Date | String | null
 	) {
 		this.projectIdentifier = $projectIdentifier;
 		this.projectName = $projectName;
