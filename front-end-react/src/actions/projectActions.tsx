@@ -70,3 +70,7 @@ const getProjectSuccess = (projects: any) => ({
 	type: "GET_PROJECTS",
 	projects: projects
 });
+
+export const clearState = () => ({
+	type: "CLEAR"
+});

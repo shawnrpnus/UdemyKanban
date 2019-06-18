@@ -5,6 +5,7 @@ import { Moment } from "moment";
 import moment from "moment";
 import { connect } from "react-redux";
 import { createProject } from "../../actions/projectActions";
+import { clearState } from "../../actions/projectActions";
 import { History } from "history";
 
 const { Title } = Typography;
@@ -13,6 +14,7 @@ export interface IAddProjectProps extends FormComponentProps {
 	createProject: Function;
 	history: History; //route props are match, location and history
 	errors: any;
+	clearState: Function;
 }
 
 export interface IAddProjectState {
@@ -34,6 +36,11 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 		e.preventDefault();
 		let fieldValues = this.props.form.getFieldsValue();
 		this.props.createProject(fieldValues, this.props.history);
+	}
+
+	componentWillUnmount() {
+		this.props.form.resetFields();
+		this.props.clearState();
 	}
 
 	render() {
@@ -113,7 +120,8 @@ const mapStateToProps = (state: any) => ({
 	errors: state.errors
 });
 const mapDispatchToProps = {
-	createProject
+	createProject,
+	clearState
 }; //will wrap to become this.props.createProject = (project, history) => dispatch(createProject(project,history))
 export default connect(
 	mapStateToProps,

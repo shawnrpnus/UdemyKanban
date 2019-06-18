@@ -11,7 +11,8 @@ export default function(state = initialState, action: Action) {
 	switch (action.type) {
 		case GET_ERRORS:
 			return action.payload;
-
+		case "CLEAR":
+			return {};
 		default:
 			return state;
 	}
