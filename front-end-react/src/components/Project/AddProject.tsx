@@ -13,6 +13,7 @@ const { Title } = Typography;
 export interface IAddProjectProps extends FormComponentProps {
 	createProject: Function;
 	history: History; //route props are match, location and history
+	errors: any;
 }
 
 export interface IAddProjectState {
@@ -32,32 +33,18 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {
 		e.preventDefault();
-		this.props.form.validateFieldsAndScroll((errors, values: IAddProjectState) => {
-			if (!errors) {
-				const formData = {
-					projectName: values["projectName"],
-					projectIdentifier: values["projectIdentifier"],
-					description: values["description"],
-					start_date: !values["start_date"]
-						? null
-						: values["start_date"].format("YYYY-MM-DD HH:mm:ss ZZ"),
-					end_date: !values["end_date"]
-						? null
-						: values["end_date"].format("YYYY-MM-DD HH:mm:ss ZZ")
-				};
-				//console.log(formData);
-				let newProject = new Project(
-					formData.projectIdentifier,
-					formData.projectName,
-					formData.description,
-					formData.start_date,
-					formData.end_date
-				);
-				this.props.createProject(newProject, this.props.history);
-			} else {
-				console.log(errors);
-			}
-		});
+		console.log(this.props.form.getFieldsError());
+		let fieldValues = this.props.form.getFieldsValue();
+		let newProject = new Project(
+			fieldValues.projectIdentifier,
+			fieldValues.projectName,
+			fieldValues.description,
+			fieldValues.start_date
+				? fieldValues.start_date.format("YYYY-MM-DD HH:mm:ss ZZ")
+				: null,
+			fieldValues.end_date ? fieldValues.end_date.format("YYYY-MM-DD HH:mm:ss ZZ") : null
+		);
+		this.props.createProject(newProject, this.props.history);
 	}
 
 	render() {
@@ -71,31 +58,51 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 					onSubmit={this.handleSubmit}
 					style={{ paddingLeft: "5vw", paddingRight: "5vw" }}
 				>
-					<Form.Item>
-						{getFieldDecorator("projectName", {
-							rules: [{ required: true, message: "Project Name is Required!" }]
-						})(<Input placeholder="Project Name" />)}
+					<Form.Item
+						validateStatus={this.props.errors.projectName ? "error" : ""}
+						help={this.props.errors.projectName}
+						hasFeedback={true}
+					>
+						{getFieldDecorator("projectName")(<Input placeholder="Project Name" />)}
 					</Form.Item>
 
-					<Form.Item>
-						{getFieldDecorator("projectIdentifier", {
-							rules: [{ required: true, message: "Project ID is Required!" }]
-						})(<Input placeholder="Unique Project ID" />)}
+					<Form.Item
+						validateStatus={this.props.errors.projectIdentifier ? "error" : ""}
+						help={this.props.errors.projectIdentifier}
+						hasFeedback={true}
+					>
+						{getFieldDecorator("projectIdentifier")(
+							<Input placeholder="Unique Project ID" />
+						)}
 					</Form.Item>
 
-					<Form.Item>
-						{getFieldDecorator("description", {
-							rules: [{ required: true, message: "Project Description is Required!" }]
-						})(<Input placeholder="Project Description" />)}
+					<Form.Item
+						validateStatus={this.props.errors.description ? "error" : ""}
+						help={this.props.errors.description}
+						hasFeedback={true}
+					>
+						{getFieldDecorator("description")(
+							<Input placeholder="Project Description" />
+						)}
 					</Form.Item>
 
-					<Form.Item label="Start Date">
+					<Form.Item
+						label="Start Date"
+						validateStatus={this.props.errors.start_date ? "error" : ""}
+						help={this.props.errors.start_date}
+						hasFeedback={true}
+					>
 						{getFieldDecorator("start_date", {
 							initialValue: moment()
 						})(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
 
-					<Form.Item label="End Date">
+					<Form.Item
+						label="End Date"
+						validateStatus={this.props.errors.end_date ? "error" : ""}
+						help={this.props.errors.end_date}
+						hasFeedback={true}
+					>
 						{getFieldDecorator("end_date")(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
 
@@ -113,10 +120,13 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 //Form.create supplies this.props.form to the AddProject component
 //this.props.form is an object with several methods (getFieldDecorator, getFieldsError etc.)
 const wrappedAddProjectForm = Form.create({ name: "add_project" })(AddProject);
+const mapStateToProps = (state: any) => ({
+	errors: state.errors
+});
 const mapDispatchToProps = {
 	createProject
 }; //will wrap to become this.props.createProject = (project, history) => dispatch(createProject(project,history))
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(wrappedAddProjectForm);

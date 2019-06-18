@@ -18,7 +18,7 @@ export const createProject = (project: Project, history: History) => {
 				history.push("/dashboard");
 			})
 			.catch(err => {
-				dispatch(createProjectError(err));
+				dispatch(createProjectError(err.response.data));
 				console.log(err.response.data);
 			});
 	};
