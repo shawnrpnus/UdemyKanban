@@ -3,15 +3,17 @@ import axios from "axios";
 import { Project } from "../models/Project";
 import { History } from "history";
 
-//MUST explicity call DISPATCH in an async function
-//function must return an action object
+//MUST explicity call DISPATCH in an async function, cause using thunk
+//action function must return an action object
 //action creator must return a function (function IS the action) --> redux thunk will call the function
 //function can take in dispatch, getState, extraArgument (redux-thunk)
 export const createProject = (project: Project, history: History) => {
 	return (dispatch: any) => {
+		//redux thunk passes dispatch
 		axios
 			.post("http://localhost:8080/api/project", project)
 			.then(response => {
+				console.log(response);
 				dispatch(createProjectSuccess(response));
 				history.push("/dashboard");
 			})

@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 export interface IAddProjectProps extends FormComponentProps {
 	createProject: Function;
-	history: History;
+	history: History; //route props are match, location and history
 }
 
 export interface IAddProjectState {
@@ -26,13 +26,7 @@ export interface IAddProjectState {
 class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 	constructor(props: IAddProjectProps) {
 		super(props);
-		this.state = {
-			projectName: "",
-			projectIdentifier: "",
-			description: "",
-			start_date: null,
-			end_date: null
-		};
+		//form state handled by antd
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
@@ -67,6 +61,8 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 	}
 
 	render() {
+		/*getFieldDecorator binds values from input to the unique id values (field names) in the 
+		  value object*/
 		const { getFieldDecorator } = this.props.form;
 		return (
 			<div style={{ padding: "30px" }}>
@@ -114,6 +110,8 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 	}
 }
 
+//Form.create supplies this.props.form to the AddProject component
+//this.props.form is an object with several methods (getFieldDecorator, getFieldsError etc.)
 const wrappedAddProjectForm = Form.create({ name: "add_project" })(AddProject);
 const mapDispatchToProps = {
 	createProject
