@@ -63,3 +63,4 @@
 6. Define action creators (ordinary / async)
 7. Define mapStateToProps and mapDispatchToProps in components, then connect component and export
 8. Map form errors in state (put there by action creator & reducer) to component props --> render error messages in the form
+9. Write other functions and components accordingly

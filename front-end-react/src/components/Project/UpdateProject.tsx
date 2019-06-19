@@ -1,28 +1,37 @@
-import { Button, DatePicker, Form, Input, Typography } from "antd";
-import { FormComponentProps } from "antd/lib/form";
-import moment from "moment";
 import * as React from "react";
+import { Typography, Form, Input, DatePicker, Button } from "antd";
+import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
-import { clearState, createProject } from "../../actions/projectActions";
 import { Project } from "../../models/Project";
-
+import { RouteComponentProps } from "react-router-dom";
+import { getProjectById, createProject } from "../../actions/projectActions";
+import moment from "moment";
 const { Title } = Typography;
 
-export interface IAddProjectProps extends FormComponentProps, RouteComponentProps {
-	createProject: Function;
+export interface IUpdateProjectProps extends FormComponentProps, RouteComponentProps {
 	errors: any;
-	clearState: Function;
-	//route props are match, location and history
+	projectToUpdate: Project;
+	getProjectById: Function;
+	createProject: Function;
 }
 
-export interface IAddProjectState {}
+export interface IUpdateProjectState {}
 
-class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
-	constructor(props: IAddProjectProps) {
+interface IRouteParams {
+	projectIdentifier?: string;
+}
+
+class UpdateProject extends React.Component<IUpdateProjectProps, IUpdateProjectState> {
+	constructor(props: IUpdateProjectProps) {
 		super(props);
-		//form state handled by antd
+
+		this.state = {};
 		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	componentDidMount() {
+		let routeParams: IRouteParams = this.props.match.params;
+		this.props.getProjectById(routeParams.projectIdentifier);
 	}
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {
@@ -39,18 +48,13 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 				? fieldValues.end_date.format("YYYY-MM-DD HH:mm:ss ZZ")
 				: undefined
 		);
+		newProject.id = this.props.projectToUpdate.id;
 		this.props.createProject(newProject, this.props.history);
 	}
 
-	componentWillUnmount() {
-		this.props.form.resetFields();
-		this.props.clearState();
-	}
-
-	render() {
-		/*getFieldDecorator binds values from input to the unique id values (field names) in the 
-		  value object*/
+	public render() {
 		const { getFieldDecorator } = this.props.form;
+		let projectToUpdate: Project = this.props.projectToUpdate;
 		return (
 			<div style={{ padding: "30px" }}>
 				<Title style={{ textAlign: "center" }}>Create / Update a Project</Title>
@@ -63,7 +67,9 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						help={this.props.errors.projectName}
 						hasFeedback={true}
 					>
-						{getFieldDecorator("projectName")(<Input placeholder="Project Name" />)}
+						{getFieldDecorator("projectName", {
+							initialValue: projectToUpdate.projectName
+						})(<Input placeholder="Project Name" />)}
 					</Form.Item>
 
 					<Form.Item
@@ -71,9 +77,9 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						help={this.props.errors.projectIdentifier}
 						hasFeedback={true}
 					>
-						{getFieldDecorator("projectIdentifier")(
-							<Input placeholder="Unique Project ID" />
-						)}
+						{getFieldDecorator("projectIdentifier", {
+							initialValue: projectToUpdate.projectIdentifier
+						})(<Input placeholder="Unique Project ID" readOnly={true} />)}
 					</Form.Item>
 
 					<Form.Item
@@ -81,9 +87,9 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						help={this.props.errors.description}
 						hasFeedback={true}
 					>
-						{getFieldDecorator("description")(
-							<Input placeholder="Project Description" />
-						)}
+						{getFieldDecorator("description", {
+							initialValue: projectToUpdate.description
+						})(<Input placeholder="Project Description" />)}
 					</Form.Item>
 
 					<Form.Item
@@ -93,7 +99,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						hasFeedback={true}
 					>
 						{getFieldDecorator("start_date", {
-							initialValue: moment()
+							initialValue: moment(projectToUpdate.start_date, "YYYY-MM-DD HH:mm:ss Z")
 						})(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
 
@@ -103,7 +109,11 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 						help={this.props.errors.end_date}
 						hasFeedback={true}
 					>
-						{getFieldDecorator("end_date")(<DatePicker style={{ width: "100%" }} />)}
+						{getFieldDecorator("end_date", {
+							initialValue: projectToUpdate.end_date
+								? moment(projectToUpdate.end_date, "YYYY-MM-DD HH:mm:ss Z")
+								: null
+						})(<DatePicker style={{ width: "100%" }} />)}
 					</Form.Item>
 
 					<Form.Item>
@@ -117,17 +127,16 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 	}
 }
 
-//Form.create supplies this.props.form to the AddProject component
-//this.props.form is an object with several methods (getFieldDecorator, getFieldsError etc.)
-const wrappedAddProjectForm = Form.create({ name: "add_project" })(AddProject);
+const wrappedUpdateProjectForm = Form.create({ name: "add_project" })(UpdateProject);
 const mapStateToProps = (state: any) => ({
-	errors: state.errors
+	errors: state.errors,
+	projectToUpdate: state.project.project
 });
 const mapDispatchToProps = {
-	createProject,
-	clearState
-}; //will wrap to become this.props.createProject = (project, history) => dispatch(createProject(project,history))
+	getProjectById,
+	createProject
+};
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(wrappedAddProjectForm);
+)(wrappedUpdateProjectForm);

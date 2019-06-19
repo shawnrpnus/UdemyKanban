@@ -1,4 +1,4 @@
-import { GET_ERRORS, GET_PROJECTS } from "./types";
+import { GET_ERRORS, GET_PROJECTS, GET_PROJECT_BY_ID } from "./types";
 import axios from "axios";
 import { Project } from "../models/Project";
 import { History } from "history";
@@ -16,18 +16,10 @@ export interface IFormFieldValues {
 	end_date: Moment;
 }
 
-export const createProject = (fieldValues: IFormFieldValues, history: History) => {
+export const createProject = (newProject: Project, history: History) => {
 	return (dispatch: any) => {
 		//redux thunk passes dispatch
-		let newProject = new Project(
-			fieldValues.projectIdentifier,
-			fieldValues.projectName,
-			fieldValues.description,
-			fieldValues.start_date
-				? fieldValues.start_date.format("YYYY-MM-DD HH:mm:ss ZZ")
-				: null,
-			fieldValues.end_date ? fieldValues.end_date.format("YYYY-MM-DD HH:mm:ss ZZ") : null
-		);
+
 		axios
 			.post("http://localhost:8080/api/project", newProject)
 			.then(response => {
@@ -45,7 +37,7 @@ export const createProject = (fieldValues: IFormFieldValues, history: History) =
 //action creator
 const createProjectError = (errorData: any) => ({
 	type: GET_ERRORS,
-	payload: errorData
+	errorObj: errorData
 });
 
 const createProjectSuccess = (payload: any) => ({
@@ -66,9 +58,22 @@ export const getProjects = () => {
 	};
 };
 
+export const getProjectById = (projectIdentifier: string) => {
+	return (dispatch: any) => {
+		axios.get(`http://localhost:8080/api/project/${projectIdentifier}`).then(response => {
+			dispatch(getProjectByIdSuccess(response.data));
+		});
+	};
+};
+
 const getProjectSuccess = (projects: any) => ({
 	type: GET_PROJECTS,
 	projects: projects
+});
+
+const getProjectByIdSuccess = (project: Project) => ({
+	type: GET_PROJECT_BY_ID,
+	project: project
 });
 
 export const clearState = () => ({

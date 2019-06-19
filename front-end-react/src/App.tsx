@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import Header from "./components/Layout/Header";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
+import UpdateProject from "./components/Project/UpdateProject";
 import { Provider } from "react-redux";
 import store from "./store";
 import ErrorPage from "./components/Layout/ErrorPage";
@@ -23,6 +24,11 @@ const App: React.FC = () => {
 							<Layout.Content>
 								<Route exact path="/dashboard" component={Dashboard} />
 								<Route exact path="/addProject" component={AddProject} />
+								<Route
+									exact
+									path="/updateProject/:projectIdentifier"
+									component={UpdateProject}
+								/>
 							</Layout.Content>
 						</Layout>
 					</div>

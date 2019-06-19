@@ -33,16 +33,8 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 				<Title style={{ textAlign: "center" }}>Projects</Title>
 				<CreateProjectButton />
 				<hr />
-				<ProjectItem id="TEST1" name="TEST TITLE" description="TEST DESCRIPTION" />
 				{this.props.projects.map((project: Project) => {
-					return (
-						<ProjectItem
-							id={project.projectIdentifier}
-							name={project.projectName}
-							description={project.description}
-							key={project.projectIdentifier}
-						/>
-					);
+					return <ProjectItem project={project} key={project.projectIdentifier} />;
 				})}
 			</div>
 		);
