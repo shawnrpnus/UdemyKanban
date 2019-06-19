@@ -62,4 +62,4 @@
 5. Create src/actions folder with two files: projectActions (for action creators) and types (for const action types)
 6. Define action creators (ordinary / async)
 7. Define mapStateToProps and mapDispatchToProps in components, then connect component and export
-8. Map form errors in state (put there action creator & reducer) to component props --> render error messages in the form
+8. Map form errors in state (put there by action creator & reducer) to component props --> render error messages in the form

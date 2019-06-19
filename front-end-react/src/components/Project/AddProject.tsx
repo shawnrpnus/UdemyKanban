@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Typography, Form, Input, DatePicker, Button } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { Moment } from "moment";
 import moment from "moment";
 import { connect } from "react-redux";
 import { createProject } from "../../actions/projectActions";
@@ -17,13 +16,7 @@ export interface IAddProjectProps extends FormComponentProps {
 	clearState: Function;
 }
 
-export interface IAddProjectState {
-	projectIdentifier: string;
-	projectName: string;
-	description: string;
-	start_date: Moment | null;
-	end_date: Moment | null;
-}
+export interface IAddProjectState {}
 
 class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 	constructor(props: IAddProjectProps) {

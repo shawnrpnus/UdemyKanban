@@ -7,25 +7,28 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
 import { Provider } from "react-redux";
 import store from "./store";
+import ErrorPage from "./components/Layout/ErrorPage";
 
 // Provider makes store available to child components that have been wrapped with the connect function
 const App: React.FC = () => {
 	return (
-		<Provider store={store}>
-			<Router>
-				<div className="App">
-					<Layout>
-						<Layout.Header>
-							<Header />
-						</Layout.Header>
-						<Layout.Content>
-							<Route exact path="/dashboard" component={Dashboard} />
-							<Route exact path="/addProject" component={AddProject} />
-						</Layout.Content>
-					</Layout>
-				</div>
-			</Router>
-		</Provider>
+		<ErrorPage>
+			<Provider store={store}>
+				<Router>
+					<div className="App">
+						<Layout>
+							<Layout.Header>
+								<Header />
+							</Layout.Header>
+							<Layout.Content>
+								<Route exact path="/dashboard" component={Dashboard} />
+								<Route exact path="/addProject" component={AddProject} />
+							</Layout.Content>
+						</Layout>
+					</div>
+				</Router>
+			</Provider>
+		</ErrorPage>
 	);
 };
 

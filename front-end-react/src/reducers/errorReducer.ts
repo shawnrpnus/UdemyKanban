@@ -10,7 +10,7 @@ interface Action {
 export default function(state = initialState, action: Action) {
 	switch (action.type) {
 		case GET_ERRORS:
-			return action.payload;
+			return action.payload; //payload is a key:value mapping of fieldName:errorMessage
 		case "CLEAR":
 			return {};
 		default:

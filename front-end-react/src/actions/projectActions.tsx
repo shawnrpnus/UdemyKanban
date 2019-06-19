@@ -1,4 +1,4 @@
-import { GET_ERRORS } from "./types";
+import { GET_ERRORS, GET_PROJECTS } from "./types";
 import axios from "axios";
 import { Project } from "../models/Project";
 import { History } from "history";
@@ -67,7 +67,7 @@ export const getProjects = () => {
 };
 
 const getProjectSuccess = (projects: any) => ({
-	type: "GET_PROJECTS",
+	type: GET_PROJECTS,
 	projects: projects
 });
 
