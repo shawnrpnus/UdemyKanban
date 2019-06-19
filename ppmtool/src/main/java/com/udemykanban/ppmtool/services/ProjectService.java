@@ -28,6 +28,9 @@ public class ProjectService {
             System.out.println(project.getStart_date().toString());
             System.out.println(project.getStart_date().getTime());
             return projectRepository.save(project); //persist if does not exist
+            //the save method in CrudRepository checks if the id field (primary key) exists in the project object.
+            //if it exists, check if a project with that id exists in db. if in db, just UPDATE/MERGE the project.
+            //if not in db OR the id field does not exist, then PERSIST
         } catch (Exception e) {
             Optional<Project> proj = projectRepository.findByProjectIdentifierIgnoreCase(project.getProjectIdentifier());
             proj.ifPresent(project1 -> {
