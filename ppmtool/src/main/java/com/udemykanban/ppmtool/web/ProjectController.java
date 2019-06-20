@@ -61,7 +61,7 @@ public class ProjectController {
     public ResponseEntity<?> deleteProject(@RequestParam("projectId") String projectId){
         projectService.deleteProjectByIdentifier(projectId);
         Map<String, String> delRsp = new HashMap<>();
-        delRsp.put("Delete", "Project with ID: " + projectId + " successfully deleted!");
+        delRsp.put("projectIdentifier", projectId);
         return new ResponseEntity<>(delRsp, HttpStatus.OK);
     }
 

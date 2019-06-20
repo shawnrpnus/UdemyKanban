@@ -2,9 +2,12 @@ import { Card, Col, Menu, Row } from "antd";
 import * as React from "react";
 import { Project } from "../../models/Project";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteProject } from "../../actions/projectActions";
 
 export interface IProjectItemProps {
 	project: Project;
+	deleteProject: Function;
 }
 
 export interface IProjectItemState {}
@@ -14,10 +17,7 @@ class ProjectItem extends React.Component<IProjectItemProps, IProjectItemState> 
 		super(props);
 
 		this.state = {};
-		this.updateProject = this.updateProject.bind(this);
 	}
-
-	updateProject() {}
 
 	public render() {
 		let project = this.props.project;
@@ -39,7 +39,11 @@ class ProjectItem extends React.Component<IProjectItemProps, IProjectItemState> 
 										Update Project Info
 									</Link>
 								</Menu.Item>
-								<Menu.Item>Delete Project</Menu.Item>
+								<Menu.Item
+									onClick={() => this.props.deleteProject(project.projectIdentifier)}
+								>
+									Delete Project
+								</Menu.Item>
 							</Menu>
 						</Col>
 					</Row>
@@ -49,4 +53,7 @@ class ProjectItem extends React.Component<IProjectItemProps, IProjectItemState> 
 	}
 }
 
-export default ProjectItem;
+export default connect(
+	null,
+	{ deleteProject }
+)(ProjectItem);

@@ -1,4 +1,4 @@
-import { GET_PROJECTS, GET_PROJECT_BY_ID } from "../actions/types";
+import { GET_PROJECTS, GET_PROJECT_BY_ID, DELETE_PROJECT } from "../actions/types";
 import { Project } from "../models/Project";
 
 const initialState = {
@@ -13,6 +13,7 @@ interface Action {
 	type: string;
 	projects: Project[];
 	project: Project;
+	projectIdentifier: string;
 }
 
 export default function(state = initialState, action: Action | any) {
@@ -27,6 +28,15 @@ export default function(state = initialState, action: Action | any) {
 			return {
 				...state,
 				project: action.project
+			};
+		case DELETE_PROJECT:
+			let projectIdentifierToDelete = action.projectIdentifier;
+			let newProjects = state.projects.filter((project: Project) => {
+				return project.projectIdentifier !== projectIdentifierToDelete;
+			});
+			return {
+				...state,
+				projects: newProjects
 			};
 		default:
 			return state;

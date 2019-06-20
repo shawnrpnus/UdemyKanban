@@ -38,7 +38,7 @@ class UpdateProject extends React.Component<IUpdateProjectProps, IUpdateProjectS
 		//when updaet form loads, get project, save it to redux state, which will then
 		//be passed down to the component as props
 		let routeParams: IRouteParams = this.props.match.params;
-		this.props.getProjectById(routeParams.projectIdentifier);
+		this.props.getProjectById(routeParams.projectIdentifier, this.props.history);
 	}
 
 	handleSubmit(e: React.FormEvent<EventTarget>) {

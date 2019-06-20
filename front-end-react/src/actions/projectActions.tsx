@@ -1,27 +1,24 @@
-import { GET_ERRORS, GET_PROJECTS, GET_PROJECT_BY_ID } from "./types";
+import {
+	GET_ERRORS,
+	GET_PROJECTS,
+	GET_PROJECT_BY_ID,
+	CLEAR_ERRORS,
+	DELETE_PROJECT
+} from "./types";
 import axios from "axios";
 import { Project } from "../models/Project";
 import { History } from "history";
-import { Moment } from "moment";
 
 //MUST explicity call DISPATCH in an async function, cause using thunk
 //action function must return an action object
 //action creator must return a function (function IS the action) --> redux thunk will call the function
 //function can take in dispatch, getState, extraArgument (redux-thunk)
-export interface IFormFieldValues {
-	projectIdentifier: string;
-	projectName: string;
-	description: string;
-	start_date: Moment;
-	end_date: Moment;
-}
-
 export const createProject = (newProject: Project, history: History) => {
 	return (dispatch: any) => {
 		//redux thunk passes dispatch
 
 		axios
-			.post("http://localhost:8080/api/project", newProject)
+			.post("/api/project", newProject)
 			.then(response => {
 				console.log(response);
 				dispatch(createProjectSuccess(response));
@@ -47,21 +44,26 @@ const createProjectSuccess = (payload: any) => ({
 
 export const getProjects = () => {
 	return (dispatch: any) => {
-		axios.get("http://localhost:8080/api/project/all").then(response => {
-			dispatch(getProjectSuccess(response.data));
+		axios.get("/api/project/all").then(response => {
+			dispatch(getProjectsSuccess(response.data));
 		});
 	};
 };
 
-export const getProjectById = (projectIdentifier: string) => {
+export const getProjectById = (projectIdentifier: string, history: History) => {
 	return (dispatch: any) => {
-		axios.get(`http://localhost:8080/api/project/${projectIdentifier}`).then(response => {
-			dispatch(getProjectByIdSuccess(response.data));
-		});
+		axios
+			.get(`/api/project/${projectIdentifier}`)
+			.then(response => {
+				dispatch(getProjectByIdSuccess(response.data));
+			})
+			.catch(error => {
+				history.push("/dashboard");
+			});
 	};
 };
 
-const getProjectSuccess = (projects: any) => ({
+const getProjectsSuccess = (projects: any) => ({
 	type: GET_PROJECTS,
 	projects: projects
 });
@@ -71,6 +73,23 @@ const getProjectByIdSuccess = (project: Project) => ({
 	project: project
 });
 
+export const deleteProject = (projectIdentifier: string) => {
+	return (dispatch: any) => {
+		if (window.confirm("Are you sure you want to delete this project?")) {
+			axios
+				.delete(`/api/project/delete?projectId=${projectIdentifier}`)
+				.then(response => {
+					dispatch(deleteProjectSuccess(response.data.projectIdentifier));
+				});
+		}
+	};
+};
+
+const deleteProjectSuccess = (projectIdentifier: string) => ({
+	type: DELETE_PROJECT,
+	projectIdentifier: projectIdentifier
+});
+
 export const clearStateErrors = () => ({
-	type: "CLEAR"
+	type: CLEAR_ERRORS
 });
