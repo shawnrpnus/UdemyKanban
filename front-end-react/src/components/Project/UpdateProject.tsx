@@ -9,10 +9,10 @@ import moment from "moment";
 const { Title } = Typography;
 
 export interface IUpdateProjectProps extends FormComponentProps, RouteComponentProps {
-	errors: any;
-	projectToUpdate: Project;
-	getProjectById: Function;
-	createProject: Function;
+	errors: any; //from mapState
+	projectToUpdate: Project; //from mapState
+	getProjectById: Function; //from mapDispatch
+	createProject: Function; //from mapDispatch
 }
 
 export interface IUpdateProjectState {}
@@ -30,6 +30,8 @@ class UpdateProject extends React.Component<IUpdateProjectProps, IUpdateProjectS
 	}
 
 	componentDidMount() {
+		//when updaet form loads, get project, save it to redux state, which will then
+		//be passed down to the component as props
 		let routeParams: IRouteParams = this.props.match.params;
 		this.props.getProjectById(routeParams.projectIdentifier);
 	}
