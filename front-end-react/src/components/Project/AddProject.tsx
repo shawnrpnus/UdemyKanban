@@ -4,7 +4,7 @@ import moment from "moment";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { clearState, createProject } from "../../actions/projectActions";
+import { clearStateErrors, createProject } from "../../actions/projectActions";
 import { Project } from "../../models/Project";
 
 const { Title } = Typography;
@@ -12,7 +12,7 @@ const { Title } = Typography;
 export interface IAddProjectProps extends FormComponentProps, RouteComponentProps {
 	createProject: Function;
 	errors: any;
-	clearState: Function;
+	clearStateErrors: Function;
 	//route props are match, location and history
 }
 
@@ -44,7 +44,7 @@ class AddProject extends React.Component<IAddProjectProps, IAddProjectState> {
 
 	componentWillUnmount() {
 		this.props.form.resetFields();
-		this.props.clearState();
+		this.props.clearStateErrors();
 	}
 
 	render() {
@@ -125,7 +125,7 @@ const mapStateToProps = (state: any) => ({
 });
 const mapDispatchToProps = {
 	createProject,
-	clearState
+	clearStateErrors
 }; //will wrap to become this.props.createProject = (project, history) => dispatch(createProject(project,history))
 export default connect(
 	mapStateToProps,

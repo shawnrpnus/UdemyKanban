@@ -4,7 +4,11 @@ import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
 import { Project } from "../../models/Project";
 import { RouteComponentProps } from "react-router-dom";
-import { getProjectById, createProject } from "../../actions/projectActions";
+import {
+	getProjectById,
+	createProject,
+	clearStateErrors
+} from "../../actions/projectActions";
 import moment from "moment";
 const { Title } = Typography;
 
@@ -13,6 +17,7 @@ export interface IUpdateProjectProps extends FormComponentProps, RouteComponentP
 	projectToUpdate: Project; //from mapState
 	getProjectById: Function; //from mapDispatch
 	createProject: Function; //from mapDispatch
+	clearStateErrors: Function;
 }
 
 export interface IUpdateProjectState {}
@@ -52,6 +57,11 @@ class UpdateProject extends React.Component<IUpdateProjectProps, IUpdateProjectS
 		);
 		newProject.id = this.props.projectToUpdate.id;
 		this.props.createProject(newProject, this.props.history);
+	}
+
+	componentWillUnmount() {
+		this.props.form.resetFields();
+		this.props.clearStateErrors();
 	}
 
 	public render() {
@@ -136,7 +146,8 @@ const mapStateToProps = (state: any) => ({
 });
 const mapDispatchToProps = {
 	getProjectById,
-	createProject
+	createProject,
+	clearStateErrors
 };
 export default connect(
 	mapStateToProps,

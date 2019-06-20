@@ -47,14 +47,9 @@ const createProjectSuccess = (payload: any) => ({
 
 export const getProjects = () => {
 	return (dispatch: any) => {
-		axios
-			.get("http://localhost:8080/api/project/all")
-			.then(response => {
-				dispatch(getProjectSuccess(response.data));
-			})
-			.catch(err => {
-				dispatch(createProjectError(err.response.data));
-			});
+		axios.get("http://localhost:8080/api/project/all").then(response => {
+			dispatch(getProjectSuccess(response.data));
+		});
 	};
 };
 
@@ -76,6 +71,6 @@ const getProjectByIdSuccess = (project: Project) => ({
 	project: project
 });
 
-export const clearState = () => ({
+export const clearStateErrors = () => ({
 	type: "CLEAR"
 });
