@@ -4,6 +4,7 @@ import com.udemykanban.ppmtool.domain.Backlog;
 import com.udemykanban.ppmtool.domain.ProjectTask;
 import com.udemykanban.ppmtool.exceptions.ProjectNotFoundException;
 import com.udemykanban.ppmtool.repositories.BacklogRepository;
+import com.udemykanban.ppmtool.repositories.ProjectRepository;
 import com.udemykanban.ppmtool.repositories.ProjectTaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,14 @@ public class ProjectTaskService {
 
     private final ProjectTaskRepository projectTaskRepository;
 
-    public ProjectTaskService(BacklogRepository backlogRepository, ProjectTaskRepository projectTaskRepository) {
+    private final ProjectRepository projectRepository;
+
+    public ProjectTaskService(BacklogRepository backlogRepository,
+                              ProjectTaskRepository projectTaskRepository,
+                              ProjectRepository projectRepository) {
         this.backlogRepository = backlogRepository;
         this.projectTaskRepository = projectTaskRepository;
+        this.projectRepository = projectRepository;
     }
 
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask) {
@@ -54,6 +60,10 @@ public class ProjectTaskService {
     }
 
     public List<ProjectTask> findProjectTasksByProjectIdentifier(String projectIdentifier){
+
+        projectRepository.findByProjectIdentifierIgnoreCase(projectIdentifier)
+                .orElseThrow(()-> new ProjectNotFoundException("Project with ID " +
+                        projectIdentifier.toUpperCase() + " Not Found"));
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
     }
 }
