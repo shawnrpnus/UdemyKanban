@@ -35,4 +35,9 @@ public class BacklogController {
         ProjectTask newProjectTask = projectTaskService.addProjectTask(backlog_id, projectTask);
         return new ResponseEntity<>(newProjectTask, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{backlog_id}") //list no need response entity also can (see ProjectController)
+    public ResponseEntity<?> getProjectBacklog(@PathVariable String backlog_id){
+        return new ResponseEntity<>(projectTaskService.findProjectTasksByProjectIdentifier(backlog_id), HttpStatus.OK);
+    }
 }

@@ -3,6 +3,7 @@ package com.udemykanban.ppmtool.services;
 import com.udemykanban.ppmtool.domain.Backlog;
 import com.udemykanban.ppmtool.domain.Project;
 import com.udemykanban.ppmtool.exceptions.ProjectIdException;
+import com.udemykanban.ppmtool.exceptions.ProjectNotFoundException;
 import com.udemykanban.ppmtool.repositories.BacklogRepository;
 import com.udemykanban.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class ProjectService {
                 backlog.setProject(project);
             } else { //project already exists, must set again because its not passed in from client
                 Backlog backlogToSet = backlogRepository.findByProjectIdentifierIgnoreCase(project.getProjectIdentifier())
-                        .orElseThrow(() -> new RuntimeException("Backlog not found"));
+                        .orElseThrow(() -> new ProjectNotFoundException("Project not found when setting backlog"));
                 project.setBacklog(backlogToSet);
             }
             return projectRepository.save(project); //persist if does not exist
