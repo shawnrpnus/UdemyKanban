@@ -33,7 +33,11 @@ class ProjectItem extends React.Component<IProjectItemProps, IProjectItemState> 
 						</Col>
 						<Col span={6}>
 							<Menu mode="vertical">
-								<Menu.Item>Project Board</Menu.Item>
+								<Menu.Item>
+									<Link to={`/projectBoard/${project.projectIdentifier}`}>
+										Project Board
+									</Link>
+								</Menu.Item>
 								<Menu.Item>
 									<Link to={`/updateProject/${project.projectIdentifier}`}>
 										Update Project Info

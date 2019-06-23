@@ -9,6 +9,9 @@ import UpdateProject from "./components/Project/UpdateProject";
 import { Provider } from "react-redux";
 import store from "./store";
 import ErrorPage from "./components/Layout/ErrorPage";
+import ProjectBoard from "./components/ProjectBoard/ProjectBoard";
+import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
+import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTask";
 
 // Provider makes store available to child components that have been wrapped with the connect function
 const App: React.FC = () => {
@@ -29,6 +32,13 @@ const App: React.FC = () => {
 									path="/updateProject/:projectIdentifier"
 									component={UpdateProject}
 								/>
+								<Route exact path="/projectBoard/:id" component={ProjectBoard} />
+								<Route
+									exact
+									path="/updateProjectTask/:id"
+									component={UpdateProjectTask}
+								/>
+								<Route exact path="/addProjectTask/:id" component={AddProjectTask} />
 							</Layout.Content>
 						</Layout>
 					</div>
