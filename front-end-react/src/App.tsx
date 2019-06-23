@@ -3,7 +3,7 @@ import "./App.css";
 import Dashboard from "./components/Dashboard";
 import { Layout } from "antd";
 import Header from "./components/Layout/Header";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
 import UpdateProject from "./components/Project/UpdateProject";
 import { Provider } from "react-redux";
@@ -25,20 +25,23 @@ const App: React.FC = () => {
 								<Header />
 							</Layout.Header>
 							<Layout.Content>
-								<Route exact path="/dashboard" component={Dashboard} />
-								<Route exact path="/addProject" component={AddProject} />
-								<Route
-									exact
-									path="/updateProject/:projectIdentifier"
-									component={UpdateProject}
-								/>
-								<Route exact path="/projectBoard/:id" component={ProjectBoard} />
-								<Route
-									exact
-									path="/updateProjectTask/:id"
-									component={UpdateProjectTask}
-								/>
-								<Route exact path="/addProjectTask/:id" component={AddProjectTask} />
+								<Switch>
+									<Route exact path="/dashboard" component={Dashboard} />
+									<Route exact path="/addProject" component={AddProject} />
+									<Route
+										exact
+										path="/updateProject/:projectIdentifier"
+										component={UpdateProject}
+									/>
+									<Route exact path="/projectBoard/:id" component={ProjectBoard} />
+									<Route
+										exact
+										path="/updateProjectTask/:id"
+										component={UpdateProjectTask}
+									/>
+									<Route exact path="/addProjectTask/:id" component={AddProjectTask} />
+									<Route render={() => <Redirect to={{ pathname: "/dashboard" }} />} />
+								</Switch>
 							</Layout.Content>
 						</Layout>
 					</div>
