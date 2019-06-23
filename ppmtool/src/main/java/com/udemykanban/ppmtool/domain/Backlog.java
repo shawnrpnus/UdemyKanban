@@ -27,6 +27,6 @@ public class Backlog {
     @JsonIgnore //relationship from backlog to project will be ignored when fetching via APIs
     private Project project;
     //One to Many with Project Tasks
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="backlog")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="backlog", orphanRemoval = true)
     private List<ProjectTask> projectTasks = new ArrayList<>();
 }
