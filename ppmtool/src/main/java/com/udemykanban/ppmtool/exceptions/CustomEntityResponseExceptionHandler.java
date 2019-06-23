@@ -26,5 +26,12 @@ public class CustomEntityResponseExceptionHandler extends ResponseEntityExceptio
         return new ResponseEntity<>(expRsp, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleProjectTaskNotFoundException(ProjectTaskNotFoundException ex, WebRequest req){
+        //System.out.println("HEYYYY " + req.toString());
+        ProjectTaskNotFoundExceptionResponse expRsp = new ProjectTaskNotFoundExceptionResponse(ex.getMessage()); //format to json response
+        return new ResponseEntity<>(expRsp, HttpStatus.BAD_REQUEST);
+    }
+
 
 }

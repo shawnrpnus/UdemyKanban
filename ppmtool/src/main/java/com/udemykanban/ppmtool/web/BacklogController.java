@@ -1,6 +1,5 @@
 package com.udemykanban.ppmtool.web;
 
-import com.udemykanban.ppmtool.domain.Project;
 import com.udemykanban.ppmtool.domain.ProjectTask;
 import com.udemykanban.ppmtool.services.ProjectTaskService;
 import com.udemykanban.ppmtool.services.ValidationService;
@@ -10,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/backlog")
@@ -39,5 +40,32 @@ public class BacklogController {
     @GetMapping("/{backlog_id}") //list no need response entity also can (see ProjectController)
     public ResponseEntity<?> getProjectBacklog(@PathVariable String backlog_id){
         return new ResponseEntity<>(projectTaskService.findProjectTasksByProjectIdentifier(backlog_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
+        ProjectTask projectTask = projectTaskService.findProjectTaskByProjectSequence(backlog_id, pt_id);
+        return new ResponseEntity<>(projectTask, HttpStatus.OK);
+    }
+
+    @PostMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask projectTask, BindingResult result,
+                                               @PathVariable String backlog_id, @PathVariable String pt_id){
+        ResponseEntity<?> errorMap = validationService.generateErrorMapResponse(result);
+        if (errorMap != null) {
+            return errorMap;
+        }
+
+        ProjectTask updatedTask = projectTaskService.updateByProjectSequence(projectTask, backlog_id, pt_id);
+
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
+        ProjectTask deletedProjectTask = projectTaskService.deleteProjectTask(backlog_id, pt_id);
+        Map<String, String> delRsp = new HashMap<>();
+        delRsp.put("projectTaskId", deletedProjectTask.getProjectSequence());
+        return new ResponseEntity<>(delRsp, HttpStatus.OK);
     }
 }

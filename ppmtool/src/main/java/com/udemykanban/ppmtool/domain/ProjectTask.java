@@ -50,4 +50,10 @@ public class ProjectTask {
         this.updated_At = new Date();
     }
 
+    @PreRemove
+    protected void onDelete(){
+        this.getBacklog().getProjectTasks().remove(this);
+        this.setBacklog(null);
+    }
+
 }

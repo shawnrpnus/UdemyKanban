@@ -1,6 +1,7 @@
 package com.udemykanban.ppmtool.services;
 
 import com.udemykanban.ppmtool.domain.Backlog;
+import com.udemykanban.ppmtool.domain.Project;
 import com.udemykanban.ppmtool.domain.ProjectTask;
 import com.udemykanban.ppmtool.exceptions.ProjectNotFoundException;
 import com.udemykanban.ppmtool.repositories.BacklogRepository;
@@ -65,5 +66,35 @@ public class ProjectTaskService {
                 .orElseThrow(()-> new ProjectNotFoundException("Project with ID " +
                         projectIdentifier.toUpperCase() + " Not Found"));
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
+    }
+
+    public ProjectTask findProjectTaskByProjectSequence(String backlog_id, String projectSequence){
+        //make sure searching for existing backlog
+        Backlog backlog = backlogRepository.findByProjectIdentifierIgnoreCase(backlog_id).orElseThrow(() ->
+                new ProjectNotFoundException("Project/backlog not found for id: " + backlog_id));
+        //make sure that task exists
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequenceIgnoreCase(projectSequence)
+                .orElseThrow(() -> new ProjectNotFoundException("Project Task not found"));
+        if (!projectTask.getProjectIdentifier().equalsIgnoreCase(backlog_id)){ //project task is not from the correct backlog
+            throw new ProjectNotFoundException(String.format("Project task '%s' does not exist in project '%s'", projectSequence, backlog_id));
+        }
+
+        return projectTask;
+    }
+
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id){
+        ProjectTask ptToUpdate = findProjectTaskByProjectSequence(backlog_id, pt_id);
+        ptToUpdate.setPriority(updatedTask.getPriority());
+        ptToUpdate.setStatus(updatedTask.getStatus());
+        ptToUpdate.setAcceptanceCriteria(updatedTask.getAcceptanceCriteria());
+        ptToUpdate.setSummary(updatedTask.getSummary());
+        ptToUpdate.setDueDate(updatedTask.getDueDate());
+        return projectTaskRepository.save(ptToUpdate);
+    }
+
+    public ProjectTask deleteProjectTask(String backlog_id, String pt_id){
+        ProjectTask ptToDelete = findProjectTaskByProjectSequence(backlog_id, pt_id);
+        projectTaskRepository.delete(ptToDelete);
+        return ptToDelete;
     }
 }
