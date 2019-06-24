@@ -1,4 +1,9 @@
-import { GET_BACKLOG, GET_PROJECT_TASK, DELETE_PROJECT_TASK } from "../actions/types";
+import {
+	GET_BACKLOG,
+	GET_PROJECT_TASK,
+	DELETE_PROJECT_TASK,
+	CLEAR_BACKLOG
+} from "../actions/types";
 import { ProjectTask } from "../models/ProjectTask";
 
 const initialState = {
@@ -9,6 +14,7 @@ const initialState = {
 interface Action {
 	projectTasks: ProjectTask[];
 	projectTask: ProjectTask;
+	deletedId: string;
 }
 
 export default function(state = initialState, action: Action | any) {
@@ -24,9 +30,19 @@ export default function(state = initialState, action: Action | any) {
 				projectTask: action.projectTask
 			};
 		case DELETE_PROJECT_TASK:
+			let deletedId = action.deletedId;
+			let newProjectTasks = state.projectTasks.filter(
+				(task: ProjectTask) => task.projectSequence !== deletedId
+			);
 			return {
-				...state
-			}; // TODO: put logic
+				...state,
+				projectTasks: newProjectTasks
+			};
+		case CLEAR_BACKLOG:
+			return {
+				...state,
+				projectTask: {}
+			};
 		default:
 			return state;
 	}

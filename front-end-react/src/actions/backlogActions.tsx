@@ -1,6 +1,12 @@
 import axios from "axios";
 import { History } from "history";
-import { GET_ERRORS, GET_BACKLOG, GET_PROJECT_TASK, DELETE_PROJECT_TASK } from "./types";
+import {
+	GET_ERRORS,
+	GET_BACKLOG,
+	GET_PROJECT_TASK,
+	DELETE_PROJECT_TASK,
+	CLEAR_BACKLOG
+} from "./types";
 import { ProjectTask } from "../models/ProjectTask";
 
 export const addProjectTask = (
@@ -81,8 +87,8 @@ export const getProjectTask = (
 			})
 			.catch(error => {
 				dispatch(addProjecTaskError(error.response.data));
-				history.push(`/projectBoard/${backlog_id}`);
-				alert("Invalid project task");
+				// history.push(`/projectBoard/${backlog_id}`);
+				// alert("Invalid project task");
 			});
 	};
 };
@@ -90,4 +96,31 @@ export const getProjectTask = (
 const getProjectTaskSuccess = (projectTask: ProjectTask) => ({
 	type: GET_PROJECT_TASK,
 	projectTask: projectTask
+});
+
+export const deleteProjectTask = (backlog_id: string, project_task: ProjectTask) => {
+	return (dispatch: any) => {
+		axios
+			.delete(`/api/backlog/${backlog_id}/${project_task.projectSequence}`)
+			.then(response => {
+				dispatch(deleteProjectTaskSuccess(response.data));
+			})
+			.catch(error => {
+				dispatch(addProjecTaskError(error.response.data));
+				console.log(error.response.data);
+			});
+	};
+};
+
+interface deleteRsp {
+	projectTaskId: string;
+}
+
+const deleteProjectTaskSuccess = (deleteResponse: deleteRsp) => ({
+	type: DELETE_PROJECT_TASK,
+	deletedId: deleteResponse.projectTaskId
+});
+
+export const clearStateBacklog = () => ({
+	type: CLEAR_BACKLOG
 });

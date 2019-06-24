@@ -1,15 +1,18 @@
+import { Button, Card } from "antd";
 import * as React from "react";
-import { Card, Button } from "antd";
-import { ProjectTask } from "../../../models/ProjectTask";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { deleteProjectTask } from "../../../actions/backlogActions";
+import { ProjectTask } from "../../../models/ProjectTask";
 
 export interface IProjectTaskComponentProps {
 	projectTask: ProjectTask;
+	deleteProjectTask: Function;
 }
 
 export interface IProjectTaskComponentState {}
 
-export default class ProjectTaskComponent extends React.Component<
+class ProjectTaskComponent extends React.Component<
 	IProjectTaskComponentProps,
 	IProjectTaskComponentState
 > {
@@ -17,6 +20,12 @@ export default class ProjectTaskComponent extends React.Component<
 		super(props);
 
 		this.state = {};
+		this.deleteProjectTask = this.deleteProjectTask.bind(this);
+	}
+
+	deleteProjectTask() {
+		let backlog_id = this.props.projectTask.projectIdentifier;
+		this.props.deleteProjectTask(backlog_id, this.props.projectTask);
 	}
 
 	public render() {
@@ -52,7 +61,9 @@ export default class ProjectTaskComponent extends React.Component<
 							View/Update Project
 						</Link>
 					</Button>,
-					<Button type="danger">Delete</Button>
+					<Button type="danger" onClick={this.deleteProjectTask}>
+						Delete
+					</Button>
 				]}
 			>
 				<p style={{ fontWeight: "bold", fontSize: "2vw" }}>{projectTask.summary}</p>
@@ -61,3 +72,12 @@ export default class ProjectTaskComponent extends React.Component<
 		);
 	}
 }
+
+const mapDispatchToProps = {
+	deleteProjectTask
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(ProjectTaskComponent);
