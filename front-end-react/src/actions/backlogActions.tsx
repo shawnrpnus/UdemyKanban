@@ -100,15 +100,17 @@ const getProjectTaskSuccess = (projectTask: ProjectTask) => ({
 
 export const deleteProjectTask = (backlog_id: string, project_task: ProjectTask) => {
 	return (dispatch: any) => {
-		axios
-			.delete(`/api/backlog/${backlog_id}/${project_task.projectSequence}`)
-			.then(response => {
-				dispatch(deleteProjectTaskSuccess(response.data));
-			})
-			.catch(error => {
-				dispatch(addProjecTaskError(error.response.data));
-				console.log(error.response.data);
-			});
+		if (window.confirm("Are you sure you want to delete?")) {
+			axios
+				.delete(`/api/backlog/${backlog_id}/${project_task.projectSequence}`)
+				.then(response => {
+					dispatch(deleteProjectTaskSuccess(response.data));
+				})
+				.catch(error => {
+					dispatch(addProjecTaskError(error.response.data));
+					console.log(error.response.data);
+				});
+		}
 	};
 };
 
