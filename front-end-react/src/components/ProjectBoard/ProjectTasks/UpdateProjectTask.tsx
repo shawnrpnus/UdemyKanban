@@ -18,6 +18,7 @@ export interface IUpdateProjectTaskProps
 	updateProjectTask: typeof updateProjectTask;
 	projectTaskToUpdate: ProjectTask;
 	getProjectTask: typeof getProjectTask;
+	clearStateErrors: typeof clearStateErrors;
 }
 
 export interface IUpdateProjectTaskState {}
@@ -69,6 +70,11 @@ class UpdateProjectTask extends React.Component<
 			routeParams.ptId,
 			this.props.history
 		);
+	}
+
+	componentWillUnmount() {
+		this.props.form.resetFields();
+		this.props.clearStateErrors();
 	}
 
 	public render() {
