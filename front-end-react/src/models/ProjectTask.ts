@@ -6,24 +6,23 @@ export class ProjectTask {
 	acceptanceCriteria: string;
 	status: string;
 	priority: number;
-	due_date: string | undefined;
+	dueDate: string | undefined;
 
 	constructor(
 		$projectIdentifier: string,
-		$projectSequence: string,
 		$projectsummary: string,
 		$acceptanceCriteria: string,
 		$status: string,
 		$priority: number,
-		$due_date: string | undefined
+		$dueDate: string | undefined
 	) {
 		this.projectIdentifier = $projectIdentifier;
-		this.projectSequence = $projectSequence;
+		this.projectSequence = "";
 		this.summary = $projectsummary;
 		this.acceptanceCriteria = $acceptanceCriteria;
 		this.status = $status;
 		this.priority = $priority;
-		this.due_date = $due_date;
+		this.dueDate = $dueDate;
 		this.id = undefined;
 	}
 }

@@ -36,6 +36,7 @@
 6. react-redux
 7. redux-thunk
 8. axios
+9. classNames
 
 ## Setup
 

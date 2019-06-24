@@ -23,7 +23,7 @@ class Dashboard extends React.Component<IDashboardProps, IDashboardState> {
 	}
 
 	componentWillMount() {
-		this.props.getProjects();
+		this.props.getProjects(); //will pass projects into props through mapStateToProps
 		console.log(this.props.projects);
 	}
 

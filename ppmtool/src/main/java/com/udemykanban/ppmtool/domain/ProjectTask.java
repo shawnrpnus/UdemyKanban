@@ -1,5 +1,6 @@
 package com.udemykanban.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class ProjectTask {
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss Z", locale = "en_SG", timezone = "GMT+8")
     private Date dueDate;
 
     //Many to One with Backlog
