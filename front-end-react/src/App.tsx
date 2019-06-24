@@ -40,6 +40,11 @@ const App: React.FC = () => {
 										component={UpdateProjectTask}
 									/>
 									<Route exact path="/addProjectTask/:id" component={AddProjectTask} />
+									<Route
+										exact
+										path="/updateProjectTask/:backlogId/:ptId"
+										component={UpdateProjectTask}
+									/>
 									<Route render={() => <Redirect to={{ pathname: "/dashboard" }} />} />
 								</Switch>
 							</Layout.Content>

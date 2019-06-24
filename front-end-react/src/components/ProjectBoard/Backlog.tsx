@@ -29,17 +29,17 @@ class Backlog extends React.Component<IBacklogProps, IBacklogState> {
 
 	public render() {
 		let todoTasks = this.props.projectTasks
-			.filter(projectTask => projectTask.status == "TO_DO")
+			.filter(projectTask => projectTask.status === "TO_DO")
 			.sort((task1, task2) => {
 				return task1.priority - task2.priority;
 			});
 		let inProgressTasks = this.props.projectTasks
-			.filter(projectTask => projectTask.status == "IN_PROGRESS")
+			.filter(projectTask => projectTask.status === "IN_PROGRESS")
 			.sort((task1, task2) => {
 				return task1.priority - task2.priority;
 			});
 		let doneTasks = this.props.projectTasks
-			.filter(projectTask => projectTask.status == "DONE")
+			.filter(projectTask => projectTask.status === "DONE")
 			.sort((task1, task2) => {
 				return task1.priority - task2.priority;
 			});

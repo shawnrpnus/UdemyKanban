@@ -49,3 +49,45 @@ const getBacklogSuccess = (projectTasks: any) => ({
 	type: GET_BACKLOG,
 	projectTasks: projectTasks
 });
+
+export const updateProjectTask = (
+	backlog_id: string,
+	project_task: ProjectTask,
+	history: History
+) => {
+	return (dispatch: any) => {
+		axios
+			.post(`/api/backlog/${backlog_id}/${project_task.projectSequence}`, project_task)
+			.then(response => {
+				dispatch(addProjectTaskSuccess(response.data));
+				history.push(`/projectBoard/${backlog_id}`);
+			})
+			.catch(error => {
+				dispatch(addProjecTaskError(error.response.data));
+			});
+	};
+};
+
+export const getProjectTask = (
+	backlog_id: string,
+	project_task_id: string,
+	history: History
+) => {
+	return (dispatch: any) => {
+		axios
+			.get(`/api/backlog/${backlog_id}/${project_task_id}`)
+			.then(response => {
+				dispatch(getProjectTaskSuccess(response.data));
+			})
+			.catch(error => {
+				dispatch(addProjecTaskError(error.response.data));
+				history.push(`/projectBoard/${backlog_id}`);
+				alert("Invalid project task");
+			});
+	};
+};
+
+const getProjectTaskSuccess = (projectTask: ProjectTask) => ({
+	type: GET_PROJECT_TASK,
+	projectTask: projectTask
+});

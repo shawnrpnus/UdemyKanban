@@ -43,7 +43,15 @@ export default class ProjectTaskComponent extends React.Component<
 				title={`ID: ${projectTask.projectSequence} --- Priority: ${priority} `}
 				headStyle={{ background: background }}
 				actions={[
-					<Button type="primary">View/Update Project</Button>,
+					<Button type="primary">
+						<Link
+							to={`/updateProjectTask/${projectTask.projectIdentifier}/${
+								projectTask.projectSequence
+							}`}
+						>
+							View/Update Project
+						</Link>
+					</Button>,
 					<Button type="danger">Delete</Button>
 				]}
 			>
