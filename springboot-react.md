@@ -9,6 +9,9 @@
 5. MySQL
 6. Project Lombok
 7. Spring Boot Starter Test
+8. Spring Boot Starter Security
+9. Gson
+10. jjwt
 
 ## Setup
 
